@@ -5,25 +5,37 @@
   app.controller('LoginCtrl', function($scope, $http, $cordovaOauth, $cordovaFacebook) {
 
     $scope.facebookLogin = function () {
-      $cordovaFacebook.login(["public_profile", "email", "user_friends"])
-	    .then(function(success) {
-	    	console.log("Facebook authentication succesful");
-        console.log("START:" + success.authResponse.accessToken + ":END");
-        $http.post("http://localhost:8100/rest-auth/facebook/", {access_token: success.authResponse.accessToken}).then(function(resp) {
-          $scope.access_token = resp.data.key;
-                $http.defaults.headers.common['Authorization'] = "Token " + app_token;
-          console.log("key: " + $scope.access_token);
-          }, function(err) {
-            //error
+      $scope.access_token = "";
+      $cordovaFacebook.getLoginStatus().then(function(success) {
+        $scope.access_token = success.authResponse.accessToken;
+        $http.post("http://localhost:8100/rest-auth/facebook/", {access_token: $scope.access_token}).then(function(success) {
+          $scope.app_token = success.data.key;
+          console.log($scope.app_token);
+          $http.defaults.headers.common['Authorization'] = "Token " + $scope.app_token;
+          console.log("we got code: " + $scope.app_token);
+          }, function(error) {
+            console.log("couldn't get django api key");
         });
       }, function (error) {
-	        console.log("Facebook authentication failed");
-	    });
-
-  	};
+        console.log("not already logged in");
+        $cordovaFacebook.login(["public_profile", "email", "user_friends"]).then(function(success) {
+            $scope.access_token = success.authResponse.accessToken;
+            $http.post("http://localhost:8100/rest-auth/facebook/", {access_token: $scope.access_token}).then(function(success) {
+              $scope.app_token = success.data.key;
+              console.log($scope.app_token);
+              $http.defaults.headers.common['Authorization'] = "Token " + $scope.app_token;
+              console.log("we got code: " + $scope.app_token);
+              }, function(error) {
+                console.log("couldn't get django api key");
+            });
+          }, function (error) {
+            console.log("facebook login failed");
+          });
+        });
+      };
+    
 
     $scope.testGet = function () {
-      app_token = $scope.access_token
       $http.get("http://localhost:8100/phrases/").then(function(resp) {
           $scope.status = resp.data;
           }, function(err) {
@@ -32,7 +44,7 @@
     };
 
     $scope.testAuthToken = function () {
-      $http.get("http://localhost:8100/games/", {Token: $scope.access_token }).then(function(resp) {
+      $http.get("http://localhost:8100/games/", {Token: $scope.app_token }).then(function(resp) {
           $scope.status = resp.data;
           }, function(err) {
             console.error('ERR', err);
@@ -40,21 +52,11 @@
     };
 
     $scope.logout = function () {
-      $http.post("http://localhost:8100/rest-auth/logout/").then(function(resp) {
-          $scope.access_token = "";
-          $scope.status = resp.data;
+      $http.post("http://localhost:8100/rest-auth/logout/").then(function(success) {
+            $http.defaults.headers.common['Authorization'] = undefined;
+            console.log("logout succesful");
           }, function(err) {
             console.error('ERR', err);
-      });
-    };
-
-    $scope.googleLogin = function () {
-      $cordovaOauth.google("14404712483-fujepcqll6meifa5f0bpi2s73qaat4f5.apps.googleusercontent.com", ["email"]).then(function (result) {
-        $scope.oauthResult = result;
-        console.log(result.access_token);
-      }, function (error) {
-        $scope.oauthResult = "OAUTH ERROR (see console)";
-        console.log(error);
       });
     };
   });
