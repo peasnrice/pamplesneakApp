@@ -1,0 +1,12 @@
+<ion-view view-title="Create Game">
+  <ion-content>
+    <div class="list">
+      <label class="item item-input">
+        <input type="text" placeholder="Game Name">
+      </label>
+      <label class="item item-input">
+        <textarea ng-model="test" ng-trim="false" maxlength="100" placeholder="Motto / Decription"></textarea><span>{{100 - test.length}}</span>
+      </label>
+    </div>
+  </ion-content>
+</ion-view>

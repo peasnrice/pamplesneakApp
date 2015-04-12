@@ -1,6 +1,12 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {})
+.controller('PlayCtrl', function($scope, $state) {
+  $scope.createGame = function() {
+    $state.go('tab.create-game');
+  } 
+})
+
+.controller('CreateGameCtrl', function($scope) {})
 
 .controller('ChatsCtrl', function($scope, Chats) {
   $scope.chats = Chats.all();
@@ -26,6 +32,7 @@ angular.module('starter.controllers', [])
           $state.go('signin');
         }, function(err) {
           console.error('ERR', err);
+          $state.go('signin');
     });
   };
 
@@ -44,7 +51,7 @@ angular.module('starter.controllers', [])
         $http.defaults.headers.common['Authorization'] = "Token " + $scope.app_token;
         // console.log("we got code: " + $scope.app_token);
         console.log("Success");
-        $state.go('tab.dash');
+        $state.go('tab.play');
         }, function(error) {
           console.log("couldn't get django api key");
       });
@@ -57,7 +64,7 @@ angular.module('starter.controllers', [])
             // console.log($scope.app_token);
             $http.defaults.headers.common['Authorization'] = "Token " + $scope.app_token;
               console.log("Success");
-              $state.go('tab.dash');
+              $state.go('tab.play');
             // console.log("we got code: " + $scope.app_token);
             }, function(error) {
               // console.log("couldn't get django api key");
@@ -67,4 +74,15 @@ angular.module('starter.controllers', [])
        });
      });
    };
+   
+  $scope.logout = function () {
+    $http.post("http://localhost:8100/rest-auth/logout/").then(function(success) {
+          $http.defaults.headers.common['Authorization'] = undefined;
+          console.log("logout succesful");
+          $state.go('signin');
+        }, function(err) {
+          console.error('ERR', err);
+          $state.go('signin');
+    });
+  };
 });
