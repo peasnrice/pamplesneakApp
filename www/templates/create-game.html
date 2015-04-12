@@ -1,12 +1,23 @@
 <ion-view view-title="Create Game">
   <ion-content>
-    <div class="list">
-      <label class="item item-input">
-        <input type="text" placeholder="Game Name">
-      </label>
-      <label class="item item-input">
-        <textarea ng-model="test" ng-trim="false" maxlength="100" placeholder="Motto / Decription"></textarea><span>{{100 - test.length}}</span>
-      </label>
-    </div>
+    <form ng-submit="createGame(game)">
+      <div class="list">
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Game Name</span>
+          <input name="name" ng-model="game.name" ng-trim="false" maxlength="50" type="text" placeholder="Game Name">
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Motto / Description</span>
+          <textarea name="motto" ng-model="game.motto" ng-trim="false" maxlength="100" placeholder="Motto / Decription"></textarea><span></span>
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Your Nick Name</span>
+          <input name="nickname" ng-model="game.nickname" ng-trim="false" maxlength="64" type="text" placeholder="Your Nick Name">
+        </label>
+      </div>
+      <div class="padding">
+        <button type="submit" class="button button-block button-positive">Create & Join Game</button>
+      </div>
+    </form>
   </ion-content>
 </ion-view>
