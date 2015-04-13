@@ -1,6 +1,7 @@
 <ion-view view-title="Available Games">
   <ion-content>
-    <button ng-click="refreshGames()" class="button button-block button-balanced">refresh games</button>
+    <ion-refresher on-refresh="doRefresh()">
+    </ion-refresher>
     <ion-list>
       <ion-item ng-repeat="game in games | toArray | orderBy:'-created_on'" href="#tab/play/{{game.id}}">
         <h2>{{game.name}}</h2>

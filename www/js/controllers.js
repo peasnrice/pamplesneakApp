@@ -33,11 +33,23 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('ListGamesCtrl', function($scope, $http, $state, gameService) {
+.controller('ListGamesCtrl', function($scope, $http, $state, $timeout, gameService) {
   gameService.getGames().then(function(games){
     $scope.games = games;
   });
+  $scope.doRefresh = function() {
+    console.log('Refreshing!');
+    $timeout( function() {
+      //simulate async response
+      gameService.getGames().then(function(games){
+        $scope.games = games;
+      });
 
+      //Stop the ion-refresher from spinning
+      $scope.$broadcast('scroll.refreshComplete');
+    
+    }, 1000);
+  };
 })
 
 .controller('PlayGameCtrl', function($scope, $http, $stateParams, gameService) {
