@@ -11,6 +11,9 @@ angular.module('starter.controllers', [])
 
 .controller('CreateGameCtrl', function($scope, $http, $stateParams, $state, $ionicHistory, gameService) {
   $scope.createGame = function (game) {
+    if(!game.passcode){
+      game.passcode = "";
+    }
     $http.post("http://localhost:8100/games/", {name: game.name, motto: game.motto, passcode: game.passcode, nickname: game.nickname}).then(function(success) {
       console.log("game created succesfully");
       gameService.getGames().then(function(games){
