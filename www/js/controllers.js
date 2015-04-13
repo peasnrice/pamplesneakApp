@@ -9,12 +9,20 @@ angular.module('starter.controllers', [])
   }; 
 })
 
-.controller('CreateGameCtrl', function($scope, $http, $stateParams, $state, gameService) {
+.controller('CreateGameCtrl', function($scope, $http, $stateParams, $state, $ionicHistory, gameService) {
   $scope.createGame = function (game) {
     $http.post("http://localhost:8100/games/", {name: game.name, motto: game.motto, passcode: game.passcode, nickname: game.nickname}).then(function(success) {
       console.log("game created succesfully");
       gameService.getGames().then(function(games){
         console.log(gameService.getGame(success.data.game_id).name);
+        $ionicHistory.nextViewOptions({
+          disableAnimate: false,
+          disableBack: true
+        });
+        game.name = "";
+        game.motto = "";
+        game.passcode = "";
+        game.nickname = "";
         $state.go('tab.play-game', { "gameId": success.data.game_id});
       });
     }, function(err) {
