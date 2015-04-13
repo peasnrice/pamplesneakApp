@@ -1,4 +1,45 @@
 angular.module('starter.services', [])
+.factory('gameService', function($http) {
+
+  var games = [];
+
+  return {
+    getGames: function(){
+      return $http.get("http://localhost:8100/games/").then(function(success) {
+        games = success.data;
+        return games;
+      });
+    },
+    getGame: function(id){
+      for(i=0;i<games.length;i++){
+        if(games[i].id == id){
+          return games[i];
+        }
+      }
+      return null;
+    }
+  }
+  // var games = [];
+
+  // return {
+  //   getGames: function(){
+  //     return $http.get("http://localhost:8100/games/").then(function(success) {
+  //       return games;
+  //     }, function(err) {
+  //       console.log(err);
+  //       return null;
+  //     });
+  //   },
+  //   getGame: function(id){
+  //     for(i=0;i<games.length;i++){
+  //       if(games[i].id == games){
+  //         return games[i];
+  //       }
+  //     }
+  //     return null;
+  //   }
+  // }
+})
 
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array

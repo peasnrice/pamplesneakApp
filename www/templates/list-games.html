@@ -1,0 +1,12 @@
+<ion-view view-title="Available Games">
+  <ion-content>
+    <button ng-click="refreshGames()" class="button button-block button-balanced">refresh games</button>
+    <ion-list>
+      <ion-item ng-repeat="game in games" href="#tab/play/{{game.id}}">
+        <h2>{{game.name}}</h2>
+        <p>{{game.motto}}</p>
+        <p>{{game.id}}</p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

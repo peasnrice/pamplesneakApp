@@ -5,19 +5,30 @@ angular.module('starter.controllers', [])
     $state.go('tab.create-game');
   }; 
   $scope.joinGameMenu = function() {
-    $state.go('tab.join-game');
+    $state.go('tab.list-games');
   }; 
 })
 
 .controller('CreateGameCtrl', function($scope, $http, $state) {
   $scope.createGame = function (game) {
     $http.post("http://localhost:8100/games/", {name: game.name, motto: game.motto, nickname: game.nickname}).then(function(success) {
-          console.log("game created succesfully");
-          console.log(success.data.game_id);
-        }, function(err) {
-          console.error(error.data);
+      console.log("game created succesfully");
+      console.log(success.data.game_id);
+    }, function(err) {
+      console.error(error.data);
     });
   };   
+})
+
+.controller('ListGamesCtrl', function($scope, $http, $state, gameService) {
+  gameService.getGames().then(function(games){
+    $scope.games = games;
+  });
+})
+
+.controller('PlayGameCtrl', function($scope, $http, $stateParams, gameService) {
+  console.log($stateParams.gameId);
+  $scope.game = gameService.getGame($stateParams.gameId);
 })
 
 .controller('ChatsCtrl', function($scope, Chats) {
