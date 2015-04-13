@@ -14,6 +14,10 @@
           <span class="input-label">Your Nick Name</span>
           <input name="nickname" ng-model="game.nickname" ng-trim="false" maxlength="64" type="text" placeholder="Your Nick Name">
         </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Passcode (Optional)</span>
+          <input name="passcode" ng-model="game.passcode" ng-trim="false" maxlength="16" type="text" placeholder="Optional and Completely Insecure">
+        </label>
       </div>
       <div class="padding">
         <button type="submit" class="button button-block button-positive">Create & Join Game</button>

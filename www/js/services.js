@@ -19,26 +19,6 @@ angular.module('starter.services', [])
       return null;
     }
   }
-  // var games = [];
-
-  // return {
-  //   getGames: function(){
-  //     return $http.get("http://localhost:8100/games/").then(function(success) {
-  //       return games;
-  //     }, function(err) {
-  //       console.log(err);
-  //       return null;
-  //     });
-  //   },
-  //   getGame: function(id){
-  //     for(i=0;i<games.length;i++){
-  //       if(games[i].id == games){
-  //         return games[i];
-  //       }
-  //     }
-  //     return null;
-  //   }
-  // }
 })
 
 .factory('Chats', function() {

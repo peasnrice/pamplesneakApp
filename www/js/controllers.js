@@ -9,21 +9,35 @@ angular.module('starter.controllers', [])
   }; 
 })
 
-.controller('CreateGameCtrl', function($scope, $http, $state) {
+.controller('CreateGameCtrl', function($scope, $http, $stateParams, $state, gameService) {
   $scope.createGame = function (game) {
-    $http.post("http://localhost:8100/games/", {name: game.name, motto: game.motto, nickname: game.nickname}).then(function(success) {
+    $http.post("http://localhost:8100/games/", {name: game.name, motto: game.motto, passcode: game.passcode, nickname: game.nickname}).then(function(success) {
       console.log("game created succesfully");
-      console.log(success.data.game_id);
+      gameService.getGames().then(function(games){
+        console.log(gameService.getGame(success.data.game_id).name);
+        $state.go('tab.play-game', { "gameId": success.data.game_id});
+      });
     }, function(err) {
       console.error(error.data);
     });
   };   
 })
 
+.filter("toArray", function(){
+    return function(obj) {
+        var result = [];
+        angular.forEach(obj, function(val, key) {
+            result.push(val);
+        });
+        return result;
+    };
+})
+
 .controller('ListGamesCtrl', function($scope, $http, $state, gameService) {
   gameService.getGames().then(function(games){
     $scope.games = games;
   });
+
 })
 
 .controller('PlayGameCtrl', function($scope, $http, $stateParams, gameService) {
