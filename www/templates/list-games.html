@@ -3,7 +3,7 @@
     <ion-refresher on-refresh="doRefresh()">
     </ion-refresher>
     <ion-list>
-      <ion-item ng-repeat="game in games | toArray | orderBy:'-created_on'" href="#tab/play/{{game.id}}">
+      <ion-item ng-repeat="game in games | toArray | orderBy:'-created_on'" href="#tab/play/gamelobby/{{game.id}}">
         <h2>{{game.name}}</h2>
         <p>{{game.motto}}</p>
       </ion-item>

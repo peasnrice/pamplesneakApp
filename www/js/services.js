@@ -2,6 +2,8 @@ angular.module('starter.services', [])
 .factory('gameService', function($http) {
 
   var games = [];
+  var hosted_games = [];
+  var joined_games = [];
 
   return {
     getGames: function(){
@@ -18,8 +20,33 @@ angular.module('starter.services', [])
       }
       return null;
     }
+    // getHostedGames: function(){
+    //   return $http.get("http://localhost:8100/games/", {type: "hosted"}).then(function(success) {
+    //     hosted_games = success.data;
+    //     console.log(hosted_games);
+    //     return hosted_games;
+    //   });
+    // },
+    // getJoinedGames: function(){
+    //   return $http.get("http://localhost:8100/games/", {type: "joined"})
+    //     joined_games = success.data;
+    //     console.log(joined_games);
+    //     return joined_games;
+    //   });
+    // }
   }
 })
+
+// .factory('profileService', function($http) {
+//   return {
+//     getProfile: function(){
+//       return $http.get("http://localhost:8100/users/6/").then(function(success) {
+//         player = success.data;
+//         return player;
+//       });
+//     }
+//   }
+// })
 
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array

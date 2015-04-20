@@ -75,15 +75,35 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
-  .state('tab.play-game', {
-    url: '/play/:gameId',
+  .state('tab.game-lobby', {
+    url: '/play/gamelobby/:gameId',
     views: {
       'tab-play': {
-        templateUrl: 'templates/play-game.html',
-        controller: 'PlayGameCtrl'
+        templateUrl: 'templates/game-lobby.html',
+        controller: 'GameLobbyCtrl'
       }
     }
   })
+
+  .state('tab.game-room', {
+    url: '/play/gameroom/:gameId',
+    views: {
+      'tab-play': {
+        templateUrl: 'templates/game-room.html',
+        controller: 'GameRoomCtrl'
+      }
+    }
+  })
+
+  // .state('tab.profile',{
+  //   url: '/play/profile/:profileId',
+  //   views: {
+  //     'tab-play': {
+  //       templateUrl: 'templates/profile.html',
+  //       controller: 'ProfileCtrl'
+  //     }
+  //   }    
+  // })
 
   .state('tab.chats', {
       url: '/chats',

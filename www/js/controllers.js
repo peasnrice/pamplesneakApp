@@ -26,7 +26,7 @@ angular.module('starter.controllers', [])
         game.motto = "";
         game.passcode = "";
         game.nickname = "";
-        $state.go('tab.play-game', { "gameId": success.data.game_id});
+        $state.go('tab.game-room', { "gameId": success.data.game_id});
       });
     }, function(err) {
       console.error(error.data);
@@ -63,9 +63,30 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('PlayGameCtrl', function($scope, $http, $stateParams, gameService) {
+.controller('GameLobbyCtrl', function($scope, $http, $stateParams, gameService) {
   console.log($stateParams.gameId);
   $scope.game = gameService.getGame($stateParams.gameId);
+  $scope.players = $scope.game.players;
+  console.log($scope.players);
+ 
+  // $scope.joinGame = function (player) {
+
+  //   $http.post("http://localhost:8100/games/join_game", {gameId: $scope.game.id, nickname: player.nickname}).then(function(success){
+  //     console.log("player created");
+  //      $state.go('tab.game-room', { "gameId": success.data.game_id});
+  //   }, function(err){
+  //     console.log(err);
+  //   });
+  // }; 
+})
+
+.controller('GameRoomCtrl', function($scope, $http, $stateParams, gameService) {
+  console.log($stateParams.gameId);
+  $scope.game = gameService.getGame($stateParams.gameId);
+})
+
+.controller('ProfileCtrl', function($scope, $http, $stateParams, playerService){
+  $scope.game = playerService.getGame($stateParams.gameId);
 })
 
 .controller('ChatsCtrl', function($scope, Chats) {
@@ -134,11 +155,17 @@ angular.module('starter.controllers', [])
        });
      });
    };
-   
+
   $scope.logout = function () {
     $http.post("http://localhost:8100/rest-auth/logout/").then(function(success) {
           $http.defaults.headers.common['Authorization'] = undefined;
-          console.log("logout succesful");
+          $cordovaFacebook.logout()
+            .then(function(success) {
+              console.log("logout succesful");
+            }, function (error) {
+              console.error('ERR', err);
+              $state.go('signin');
+            });
           $state.go('signin');
         }, function(err) {
           console.error('ERR', err);
