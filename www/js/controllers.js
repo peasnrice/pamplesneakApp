@@ -63,21 +63,21 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('GameLobbyCtrl', function($scope, $http, $stateParams, gameService) {
+.controller('GameLobbyCtrl', function($scope, $http, $state, $stateParams, gameService) {
   console.log($stateParams.gameId);
   $scope.game = gameService.getGame($stateParams.gameId);
   $scope.players = $scope.game.players;
   console.log($scope.players);
  
-  // $scope.joinGame = function (player) {
-
-  //   $http.post("http://localhost:8100/games/join_game", {gameId: $scope.game.id, nickname: player.nickname}).then(function(success){
-  //     console.log("player created");
-  //      $state.go('tab.game-room', { "gameId": success.data.game_id});
-  //   }, function(err){
-  //     console.log(err);
-  //   });
-  // }; 
+  $scope.joinGame = function () {
+    $http.post($scope.game.url + "join_game/").then(function(success){
+      console.log("player created or just joined, either way we fine");
+      console.log($scope.game.id);
+      $state.go('tab.game-room', {"gameId": $scope.game.id});
+    }, function(err){
+      console.log(err);
+    });
+  }; 
 })
 
 .controller('GameRoomCtrl', function($scope, $http, $stateParams, gameService) {
@@ -116,7 +116,6 @@ angular.module('starter.controllers', [])
       $state.go('signin');
     });
   };
-
 })
 
 .controller('SignInCtrl', function($scope, $state, $http, $cordovaOauth, $cordovaFacebook) {

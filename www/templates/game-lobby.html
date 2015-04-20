@@ -6,7 +6,7 @@ displays game data
     <h2>Name: {{game.name}}</h2>
     <p>motto: {{game.motto}}</p>
     <p>player count: {{ players.length }}</p>
-    <button ng-click="joinGame()" class="button button-block button-balanced">Join a Game</button>
+    <button ng-click="joinGame()" class="button button-block button-balanced">Join Game</button>
     <h2>Player List</h2>
     <ion-list ng>
       <ion-item ng-repeat="player in players" href="#tab/play/profile/{{player.id}}">

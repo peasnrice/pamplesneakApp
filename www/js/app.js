@@ -95,6 +95,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
+
   // .state('tab.profile',{
   //   url: '/play/profile/:profileId',
   //   views: {
