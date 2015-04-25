@@ -86,7 +86,13 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ProfileCtrl', function($scope, $http, $stateParams, playerService){
-  $scope.game = playerService.getGame($stateParams.gameId);
+  console.log("wizards");
+  console.log($stateParams.profileId);
+  playerService.getPlayer().then(function(player){
+    $scope.player = player;
+  }, function(err){
+    console.log(err);
+  });
 })
 
 .controller('ChatsCtrl', function($scope, Chats) {
@@ -120,31 +126,33 @@ angular.module('starter.controllers', [])
 
 .controller('SignInCtrl', function($scope, $state, $http, $cordovaOauth, $cordovaFacebook) {
   $scope.facebookLogin = function () {
-    $scope.access_token = "";
-    $cordovaFacebook.getLoginStatus().then(function(success) {
-      $scope.access_token = success.authResponse.accessToken;
-      // console.log($scope.access_token);
-      $http.post("http://localhost:8100/rest-auth/facebook/", {access_token: $scope.access_token}).then(function(success) {
-        // $scope.app_token = success.data.key;
-        console.log(window.localStorage['app_token']);
-        window.localStorage['app_token'] = success.data.key;
-        $http.defaults.headers.common['Authorization'] = "Token " + window.localStorage['app_token'];
-        // console.log("we got code: " + $scope.app_token);
-        console.log("Success");
-        $state.go('tab.play');
-        }, function(error) {
-          console.log("couldn't get django api key");
-      });
-    }, function (error) {
-      // console.log("not already logged in");
+    // $scope.access_token = "";
+    // console.log("this is pressed");
+    // console.log($cordovaFacebook.getLoginStatus());
+    // $cordovaFacebook.getLoginStatus().then(function(success){
+    //   $scope.access_token = success.authResponse.accessToken;
+    //   console.log($scope.access_token);
+    //   $http.post("http://localhost:8100/rest-auth/facebook/", {access_token: $scope.access_token}).then(function(success) {
+    //     $scope.app_token = success.data.key;
+    //     console.log(window.localStorage['app_token']);
+    //     window.localStorage['app_token'] = success.data.key;
+    //     $http.defaults.headers.common['Authorization'] = "Token " + window.localStorage['app_token'];
+    //     console.log("we got code: " + $scope.app_token);
+    //     console.log("Success");
+    //     $state.go('tab.play');
+    //     }, function(error) {
+    //       console.log("couldn't get django api key");
+    //   });
+    // }, function (error) {
+      console.log("not already logged in");
       $cordovaFacebook.login(["public_profile", "email", "user_friends"]).then(function(success) {
           $scope.access_token = success.authResponse.accessToken;
           $http.post("http://localhost:8100/rest-auth/facebook/", {access_token: $scope.access_token}).then(function(success) {
             window.localStorage['app_token'] = success.data.key;
             console.log(window.localStorage['app_token']);
             $http.defaults.headers.common['Authorization'] = "Token " + window.localStorage['app_token'];
-              console.log("Success");
-              $state.go('tab.play');
+            console.log("Success");
+            $state.go('tab.play');
             // console.log("we got code: " + $scope.app_token);
             }, function(error) {
               // console.log("couldn't get django api key");
@@ -152,8 +160,43 @@ angular.module('starter.controllers', [])
        }, function (error) {
         console.log("facebook login failed");
        });
-     });
+     // });
    };
+
+  $scope.githubLogin = function () {
+    $http.defaults.headers.common['Accept'] = "application/json";
+    $http.defaults.headers.common['Content-Type'] = "application/json";
+    $cordovaOauth.github('52b484d1831ddde91653', 'c31ded324179feec1eb9425282b342357c3e1f18', ['user']).then(function(success){
+      $scope.access_token = success.access_token;
+      console.log($scope.access_token);
+      $http.defaults.headers.common['Authorization'] = undefined;
+      $http.defaults.headers.common['Content-Type'] = 'application/json';
+      $http.defaults.headers.common['Accept'] = undefined;
+      
+      var req = {
+       method: 'POST',
+       url: 'http://127.0.0.1:8100/rest-auth/github/',
+       headers: {
+         'Content-Type': 'application/json',
+         'Authorization': undefined
+       },
+       data: { access_token: $scope.access_token }
+      }
+
+      $http(req).then(function(success) {
+        window.localStorage['app_token'] = success.key;
+        console.log(window.localStorage['app_token']);
+        $http.defaults.headers.common['Authorization'] = "Token " + window.localStorage['app_token'];
+        console.log("Success");
+        $state.go('tab.play');
+        }, function(error) {
+          console.log("couldn't get django api key");
+          console.log(error);
+      });      
+    }, function(err){
+      console.log(err);
+    });
+  };
 
   $scope.logout = function () {
     $http.post("http://localhost:8100/rest-auth/logout/").then(function(success) {
@@ -172,3 +215,4 @@ angular.module('starter.controllers', [])
     });
   };
 });
+

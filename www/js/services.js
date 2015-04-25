@@ -37,16 +37,16 @@ angular.module('starter.services', [])
   }
 })
 
-// .factory('profileService', function($http) {
-//   return {
-//     getProfile: function(){
-//       return $http.get("http://localhost:8100/users/6/").then(function(success) {
-//         player = success.data;
-//         return player;
-//       });
-//     }
-//   }
-// })
+.factory('playerService', function($http) {
+  return {
+    getPlayer: function(url){
+      return $http.get(url).then(function(success) {
+        player = success.data;
+        return player;
+      });
+    }
+  }
+})
 
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array

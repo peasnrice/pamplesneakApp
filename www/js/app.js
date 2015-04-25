@@ -23,17 +23,29 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
 .config(function($stateProvider, $urlRouterProvider) {
 
+
+
+  // if (!window.cordova) {
+  //   var appID = 693702860679336;
+  //   var version = "v2.0"; // or leave blank and default is v2.0
+  //   //$cordovaFacebookProvider.browserInit(appID, version);
+  // }
+  
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
-  $stateProvider
 
   $stateProvider
   .state('signin', {
     url: '/sign-in',
     templateUrl: 'templates/sign-in.html',
     controller: 'SignInCtrl'
+  })
+
+  .state('forgotpassword', {
+    url: '/forgot-password',
+    templateUrl: 'templates/forgot-password.html'
   })
 
   // setup an abstract state for the tabs directive
@@ -95,16 +107,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
-
-  // .state('tab.profile',{
-  //   url: '/play/profile/:profileId',
-  //   views: {
-  //     'tab-play': {
-  //       templateUrl: 'templates/profile.html',
-  //       controller: 'ProfileCtrl'
-  //     }
-  //   }    
-  // })
+  .state('tab.profile',{
+    url: '/play/profile/:profileId',
+    views: {
+      'tab-play': {
+        templateUrl: 'templates/profile.html',
+        controller: 'ProfileCtrl'
+      }
+    }    
+  })
 
   .state('tab.chats', {
       url: '/chats',

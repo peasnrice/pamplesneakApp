@@ -1,6 +1,37 @@
 <ion-view view-title="Sign-In">
   <ion-content class="has-header" scroll="false">
-    <button ng-click="facebookLogin()" class="button button-block button-balanced">Facebook Log In</button>
-    <button ng-click="logout()" class="button button-block button-assertive">Log Out</button>  
+    <div class="list">
+      <div class="item item-divider">
+        Sign In With Social Media
+      </div>
+      <div class="item" href="#">
+        <button ng-click="facebookLogin()" class="button button-block button-balanced">Facebook Log In</button>
+      </div>
+      <div class="item" href="#">
+        <button ng-click="githubLogin()" class="button button-block button-balanced">GitHub Log In</button>
+      </div>
+      <div class="item item-divider">
+        Sign In With E-Mail
+      </div>
+      <label class="item item-input">
+        <span class="input-label">Username</span>
+        <input type="text" ng-model="user.username">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Password</span>
+        <input type="password" ng-model="user.password">
+      </label>
+    </div>
+    <div class="padding">
+      <button class="button button-block button-positive" ng-click="signIn(user)">
+        Sign-In
+      </button>
+      <p class="text-center">
+        <a href="#/forgot-password">Forgot password</a>
+      </p>
+    </div>
+
+<!--     <button ng-click="logout()" class="button button-block button-assertive">Log Out</button>   -->
+    
   </ion-content>
 </ion-view>

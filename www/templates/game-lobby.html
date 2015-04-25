@@ -10,7 +10,7 @@ displays game data
     <h2>Player List</h2>
     <ion-list ng>
       <ion-item ng-repeat="player in players" href="#tab/play/profile/{{player.id}}">
-        {{ player.nickname }}
+        {{ player.id }} - {{ player.nickname }}
       </ion-item>
     </ion-list>
   </ion-content>
