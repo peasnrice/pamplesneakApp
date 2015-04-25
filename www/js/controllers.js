@@ -125,6 +125,8 @@ angular.module('starter.controllers', [])
 })
 
 .controller('SignInCtrl', function($scope, $state, $http, $cordovaOauth, $cordovaFacebook) {
+
+
   $scope.facebookLogin = function () {
     // $scope.access_token = "";
     // console.log("this is pressed");
@@ -144,6 +146,7 @@ angular.module('starter.controllers', [])
     //       console.log("couldn't get django api key");
     //   });
     // }, function (error) {
+
       console.log("not already logged in");
       $cordovaFacebook.login(["public_profile", "email", "user_friends"]).then(function(success) {
           $scope.access_token = success.authResponse.accessToken;
@@ -166,7 +169,8 @@ angular.module('starter.controllers', [])
   $scope.githubLogin = function () {
     $http.defaults.headers.common['Accept'] = "application/json";
     $http.defaults.headers.common['Content-Type'] = "application/json";
-    $cordovaOauth.github('52b484d1831ddde91653', 'c31ded324179feec1eb9425282b342357c3e1f18', ['user']).then(function(success){
+
+    $cordovaOauth.github(oauthKeys.gitHubClientID, oauthKeys.gitHubSecret, ['user']).then(function(success){
       $scope.access_token = success.access_token;
       console.log($scope.access_token);
       $http.defaults.headers.common['Authorization'] = undefined;
@@ -215,4 +219,3 @@ angular.module('starter.controllers', [])
     });
   };
 });
-

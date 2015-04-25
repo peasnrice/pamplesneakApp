@@ -8,3 +8,5 @@ plugins/
 local_settings.js
 
 ansible/
+
+www/lib/localSettings.js
