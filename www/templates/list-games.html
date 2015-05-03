@@ -4,8 +4,8 @@
     </ion-refresher>
     <ion-list>
       <ion-item ng-repeat="game in games | toArray | orderBy:'-created_on'" href="#tab/play/gamelobby/{{game.id}}">
-        <h2>{{game.name}}</h2>
-        <p>{{game.motto}}</p>
+        <h2>Name: {{game.name}}</h2>
+        <p>Motto: {{game.motto}}</p>
       </ion-item>
     </ion-list>
   </ion-content>

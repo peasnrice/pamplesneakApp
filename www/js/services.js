@@ -38,12 +38,26 @@ angular.module('starter.services', [])
 })
 
 .factory('playerService', function($http) {
+
+  var players = [];
   return {
-    getPlayer: function(url){
-      return $http.get(url).then(function(success) {
-        player = success.data;
-        return player;
+    getPlayersByGame: function(id){
+      return $http.get("http://localhost:8100/players/get_players/", {params: {game_id: id}}).then(function(success) {
+        players = success.data;
+        console.log(players);
+        return players;
+      }, function(err){
+        console.log(err);
+        return err;
       });
+    },
+    getPlayer: function(id){
+      for(i=0;i<players.length;i++){
+        if(players[i].id == id){
+          return players[i];
+        }
+      }
+      return null;
     }
   }
 })

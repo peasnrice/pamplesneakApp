@@ -63,12 +63,14 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('GameLobbyCtrl', function($scope, $http, $state, $stateParams, gameService) {
+.controller('GameLobbyCtrl', function($scope, $http, $state, $stateParams, gameService, playerService) {
   console.log($stateParams.gameId);
   $scope.game = gameService.getGame($stateParams.gameId);
-  $scope.players = $scope.game.players;
-  console.log($scope.players);
- 
+  playerService.getPlayersByGame($stateParams.gameId).then(function(players){
+    $scope.players = players;
+    console.log($scope.players);
+  });
+  
   $scope.joinGame = function () {
     $http.post($scope.game.url + "join_game/").then(function(success){
       console.log("player created or just joined, either way we fine");
@@ -83,16 +85,24 @@ angular.module('starter.controllers', [])
 .controller('GameRoomCtrl', function($scope, $http, $stateParams, gameService) {
   console.log($stateParams.gameId);
   $scope.game = gameService.getGame($stateParams.gameId);
+  $scope.players = playerService.getPlayers($stateParams.gameId);
+  $scope.phrase = '';
+
+  $scope.sendPhrase = function (phrase) {
+
+    $http.post("http://localhost:8100/games/create_phrase/", {recipient: 5}).then(function(success){
+      console.log(success);
+      $scope.phrase = '';
+
+    }, function(err){
+      console.log(err);
+    });
+  };
 })
 
 .controller('ProfileCtrl', function($scope, $http, $stateParams, playerService){
-  console.log("wizards");
   console.log($stateParams.profileId);
-  playerService.getPlayer().then(function(player){
-    $scope.player = player;
-  }, function(err){
-    console.log(err);
-  });
+  $scope.player = playerService.getPlayer($stateParams.profileId);
 })
 
 .controller('ChatsCtrl', function($scope, Chats) {

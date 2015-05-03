@@ -5,5 +5,22 @@ displays game data
   <ion-content class="padding">
     <h2>{{game.name}}</h2>
     <p>{{game.motto}}</p>
+    <form ng-submit="sendPhrase(phrase)">
+      <div class="list">
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Phrase Text</span>
+          <input name="phrase" ng-model="phrase.text" ng-trim="false" maxlength="200" type="text" placeholder="Phrase Text">
+        </label>
+      </div>
+      <h2>Select Target</h2>
+      <ion-list ng>
+        <ion-item ng-repeat="player in players">
+          {{ player.id }} - {{ player.nickname }}
+        </ion-item>
+      </ion-list>
+      <div class="padding">
+        <button type="submit" class="button button-block button-positive">Send Phrase</button>
+      </div>
+    </form>   
   </ion-content>
 </ion-view>

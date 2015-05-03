@@ -1,6 +1,13 @@
 <ion-view view-title="{{ player.nickname }}'s Profile">
   <ion-content class="has-header" scroll="false">
-  	<p>name: {{ player.name }}</p>
-  	<p>nickname: {{ player.nickname }}</p>
+  	<p>Nickname: {{ player.nickname }}</p>
+  	<p>Games Played: {{ player.game_count }}</p>
+  	<p>Games Hosted: {{ player.hosted_count }}</p>
+  	<p>Phrase Count: {{ player.phrase_count }}</p>
+  	<p>Word Count: {{ player.word_count }}</p>
+  	<p>Best Game Score: {{ player.game_record }}</p>
+  	<p>Best Phrase Score: {{ player.phrase_record }}</p>
+  	<p>Best Word Score: {{ player.word_record }}</p>
+  	<p>Pamplesneaking Since: {{ player.created_on }}</p>
   </ion-content>
 </ion-view>
